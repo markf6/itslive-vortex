@@ -359,8 +359,21 @@ def get_annual_time_series(
 
         if len(results):
             cube = results[0]
-            projection = cube["properties"]["epsg"]
-            composite_url = cube["properties"]["composite_zarr_url"]
+            properties = cube.get("properties") if isinstance(cube, dict) else None
+            if not properties:
+                rprint(
+                    f"[yellow]No 'properties' found for cube at point ({lon}, {lat}); "
+                    "skipping annual composite time series for this point.[/yellow]"
+                )
+                continue
+            composite_url = properties.get("composite_zarr_url")
+            if not composite_url:
+                rprint(
+                    f"[yellow]'composite_zarr_url' not available for cube at point ({lon}, {lat}); "
+                    "skipping annual composite time series for this point.[/yellow]"
+                )
+                continue
+            projection = properties["epsg"]
             composite_s3_url = composite_url.replace("http:", "s3:").replace(
                 ".s3.amazonaws.com", ""
             )
