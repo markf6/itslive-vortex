@@ -57,11 +57,9 @@ def load_catalog(url: str = DEFAULT_CATALOG_URL, reload: bool = False):
 
         response = s3.head_object(Bucket=bucket_name, Key=object_key)
         modification_date = response['LastModified']
-        # print("Last modification date:", modification_date)
 
         # check local catalog cache file modification date
         
-        # print("Default catalog cache path:", DEFAULT_CATALOG_CACHE_PATH)
         # find modification date in UTC of local catalog cache file
         if DEFAULT_CATALOG_CACHE_PATH.exists():
             local_mod_time = DEFAULT_CATALOG_CACHE_PATH.stat().st_mtime
