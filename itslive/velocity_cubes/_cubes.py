@@ -298,7 +298,7 @@ def get_time_series(
                 xr_da = _open_cubes[cube_s3_url]
             else:
                 xr_da = xr.open_dataset(
-                    cube_s3_url, engine="zarr", storage_options={"anon": True}, 
+                    cube_s3_url, engine="zarr", storage_options={"anon": True},
                     decode_timedelta=True
                 )
                 _open_cubes[cube_s3_url] = xr_da
